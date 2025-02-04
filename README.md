@@ -6,7 +6,7 @@
 
 Периодичность обновления фронтенда можно менять как VITE_PINGER_INTERVAL_SECONDS в [frontend/.env](frontend/.env).
 
-![image](https://github.com/user-attachments/assets/1aa4a18c-c1c0-4834-887e-1eb664b1e778)
+![image](https://github.com/user-attachments/assets/e55012ca-ce0b-443c-8cd5-8c60904a2b95)
 
 # Как запустить
 
