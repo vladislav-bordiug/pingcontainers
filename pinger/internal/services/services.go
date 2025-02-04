@@ -40,16 +40,18 @@ func (s *Service) RunPingCycle() {
 			continue
 		}
 
+		var lastSuccess time.Time
 		pingTime, err := pingIP(ip)
 		if err != nil {
 			log.Printf("Ping %s не успешен: %v", ip, err)
-			continue
+		} else {
+			lastSuccess = time.Now()
 		}
 
 		ps := models.PingStatus{
 			IP:          ip,
 			PingTime:    pingTime,
-			LastSuccess: time.Now(),
+			LastSuccess: lastSuccess,
 		}
 
 		sendPingStatus(s.backendURL, ps)

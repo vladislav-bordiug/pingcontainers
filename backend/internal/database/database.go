@@ -66,9 +66,20 @@ func (db *PGXDatabase) UpdateStatusQuery(ctx context.Context, ping models.PingSt
 	INSERT INTO pings (ip, ping_time, last_success)
 	VALUES ($1, $2, $3)
 	ON CONFLICT (ip)
-	DO UPDATE SET ping_time = EXCLUDED.ping_time, last_success = EXCLUDED.last_success
+	SET 
+		ping_time = EXCLUDED.ping_time,
+		last_success = CASE 
+			WHEN EXCLUDED.last_success IS NOT NULL THEN EXCLUDED.last_success
+			ELSE pings.last_success
+		END
 	`
-	if _, err := db.pool.Exec(ctx, upsert, ping.IP, ping.PingTime, ping.LastSuccess); err != nil {
+	var lastSuccess any
+	if ping.LastSuccess.IsZero() {
+		lastSuccess = nil
+	} else {
+		lastSuccess = ping.LastSuccess
+	}
+	if _, err := db.pool.Exec(ctx, upsert, ping.IP, ping.PingTime, lastSuccess); err != nil {
 		log.Printf("Ошибка базы: %v", err)
 		return err
 	}
