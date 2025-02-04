@@ -17,3 +17,5 @@
 ```cd pingcontainers```
 
 ```docker-compose up --build```
+
+Frontend доступен будет на http://localhost:3000/ 
