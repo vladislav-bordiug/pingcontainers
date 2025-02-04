@@ -66,7 +66,7 @@ func (db *PGXDatabase) UpdateStatusQuery(ctx context.Context, ping models.PingSt
 	INSERT INTO pings (ip, ping_time, last_success)
 	VALUES ($1, $2, $3)
 	ON CONFLICT (ip)
-	SET 
+	DO UPDATE SET 
 		ping_time = EXCLUDED.ping_time,
 		last_success = CASE 
 			WHEN EXCLUDED.last_success IS NOT NULL THEN EXCLUDED.last_success
